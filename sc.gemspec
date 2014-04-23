@@ -5,7 +5,7 @@ require 'sc/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "sc"
-  spec.version       = Sc::VERSION
+  spec.version       = SC::VERSION
   spec.authors       = ["Tyler Hartland"]
   spec.email         = ["tyler.hartland@code42.com"]
   spec.summary       = 'Easily cut and merge release branches.'

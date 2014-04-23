@@ -1,5 +1,5 @@
 require "sc/version"
 
-module Sc
+module SC
   # Your code goes here...
 end
