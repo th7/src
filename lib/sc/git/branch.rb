@@ -10,6 +10,11 @@ module SC::Git
       system("git show-ref --verify --quiet refs/heads/'#{name}'")
     end
 
+    def checkout
+      msg = `git checkout #{name} -q`
+      raise msg unless $?.success?
+    end
+
     def checked_out?
       `git rev-parse --abbrev-ref HEAD`.chomp == name
     end

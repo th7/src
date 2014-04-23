@@ -24,6 +24,7 @@ end
 describe SC::Git::Branch do
   before(:all) do
     @reset_to = `git rev-parse HEAD`.chomp
+    @checkout_to = `git rev-parse --abbrev-ref HEAD`.chomp
     run "touch #{test_file}"
     run "git add . -A"
     run "git commit -m 'temp commit' #{quiet}"
@@ -32,6 +33,7 @@ describe SC::Git::Branch do
   end
 
   after(:all) do
+    run "git checkout #{@checkout_to} #{quiet}"
     run "git reset --soft #{quiet} #{@reset_to}"
     run "rm #{test_file}"
     run "git rm #{test_file} #{quiet}"
@@ -111,6 +113,16 @@ describe SC::Git::Branch do
   describe '#last_commit' do
     it 'returns the commit hash of the last commit' do
       expect(test_branch.last_commit).to eq `git rev-parse #{test_branch}`.chomp
+    end
+  end
+
+  describe '#checkout' do
+    it 'checks out the branch' do
+      expect {
+        test_branch.checkout
+      }.to change {
+        `git rev-parse --abbrev-ref HEAD`.chomp
+      }.to(test_branch.to_s)
     end
   end
 end
