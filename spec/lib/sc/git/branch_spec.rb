@@ -27,24 +27,20 @@ describe SC::Git::Branch do
     run "touch #{test_file}"
     run "git add . -A"
     run "git commit -m 'temp commit' #{quiet}"
+
+    run "git branch #{quiet} #{test_branch}"
   end
 
   after(:all) do
     run "git reset --soft #{quiet} #{@reset_to}"
     run "rm #{test_file}"
     run "git rm #{test_file} #{quiet}"
+
+    run "git branch -D #{quiet} #{test_branch}"
   end
 
   describe '#exists?' do
     context 'the branch exists' do
-      before do
-        run "git branch #{quiet} #{test_branch}"
-      end
-
-      after do
-        run "git branch -D #{quiet} #{test_branch}"
-      end
-
       it 'returns true' do
         expect(test_branch.exists?).to eq true
       end
@@ -52,20 +48,12 @@ describe SC::Git::Branch do
 
     context 'the branch does not exist' do
       it 'returns false' do
-        expect(branch.exists?).to eq false
+        expect(other_branch.exists?).to eq false
       end
     end
   end
 
   describe '#checked_out?' do
-    before do
-      run "git branch #{quiet} #{test_branch}"
-    end
-
-    after do
-      run "git branch -D #{quiet} #{test_branch}"
-    end
-
     context 'the branch is checked out' do
       before do
         run "git checkout #{quiet} #{test_branch}"
@@ -89,12 +77,10 @@ describe SC::Git::Branch do
 
   describe '#subset_of?' do
     before do
-      run "git branch #{quiet} #{test_branch}"
       run "git branch #{quiet} #{other_branch}"
     end
 
     after do
-      run "git branch -D #{quiet} #{test_branch}"
       run "git branch -D #{quiet} #{other_branch}"
     end
 

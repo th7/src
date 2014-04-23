@@ -19,7 +19,12 @@ module SC::Git
     end
 
     def last_commit
-      `git rev-parse #{name}`.chomp
+      hash = `git rev-parse #{name}`.chomp
+      if hash =~ /\A[0-9a-f]{40}\z/
+        hash
+      else
+        raise hash
+      end
     end
 
     def to_s
