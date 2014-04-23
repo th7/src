@@ -1,7 +1,11 @@
 module SC
   class CLI
     def run
-      'stubbed'
+      public_send(*options[:base_args])
+    end
+
+    def cut(*more_base_args)
+      add_cmd 'stubbed'
     end
 
     def options
@@ -28,6 +32,14 @@ module SC
 
     def argv
       ARGV
+    end
+
+    def add_cmd(cmd)
+      commands << cmd
+    end
+
+    def commands
+      @commands ||= []
     end
   end
 end

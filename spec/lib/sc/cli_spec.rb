@@ -5,8 +5,27 @@ describe SC::CLI do
   let(:cli) { SC::CLI.new }
 
   describe '#run' do
-    it 'returns a value' do
-      expect(cli.run).to eq 'stubbed'
+    before do
+      cli.stub(:argv).and_return(['function', 'more', 'base', 'args'])
+    end
+
+    it 'calls a function corresponding to the first arg with remaining base args' do
+      expect(cli).to receive(:function).with('more', 'base', 'args')
+      cli.run
+    end
+  end
+
+  describe '#cut' do
+    before do
+      cli.stub(:argv).and_return([ 'cut' ])
+    end
+
+    it 'is stubbed' do
+      expect {
+        cli.run
+      }.to change {
+        cli.send(:commands)
+      }.from([]).to([ 'stubbed' ])
     end
   end
 
