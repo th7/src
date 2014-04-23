@@ -117,6 +117,10 @@ describe SC::Git::Branch do
   end
 
   describe '#checkout' do
+    after do
+      run "git checkout #{@checkout_to} #{quiet}"
+    end
+
     it 'checks out the branch' do
       expect {
         test_branch.checkout
