@@ -8,5 +8,4 @@ module SC
   def self.env=(new_env)
     @env = new_env
   end
-  # Your code goes here...
 end

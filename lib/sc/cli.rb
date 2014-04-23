@@ -1,11 +1,13 @@
+require 'sc/cutter'
+
 module SC
   class CLI
     def run
       public_send(*options[:base_args])
     end
 
-    def cut(*more_base_args)
-      add_cmd 'stubbed'
+    def cut(*args)
+      SC::Cutter.new(args[0], options).cut
     end
 
     def options

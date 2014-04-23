@@ -3,6 +3,7 @@ require 'sc/cli'
 
 describe SC::CLI do
   let(:cli) { SC::CLI.new }
+  let(:dub) { double }
 
   describe '#run' do
     before do
@@ -17,15 +18,13 @@ describe SC::CLI do
 
   describe '#cut' do
     before do
-      cli.stub(:argv).and_return([ 'cut' ])
+      cli.stub(:options).and_return(base_args: [ 'cut', 'type' ])
     end
 
-    it 'is stubbed' do
-      expect {
-        cli.run
-      }.to change {
-        cli.send(:commands)
-      }.from([]).to([ 'stubbed' ])
+    it 'passes args and options to a new instance of SC::Cutter and calls cut' do
+      expect(SC::Cutter).to receive(:new).with('type', cli.options).and_return(dub)
+      expect(dub).to receive(:cut)
+      cli.run
     end
   end
 
