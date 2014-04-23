@@ -22,7 +22,7 @@ module SC::Git
     end
 
     def checked_out?
-      `git rev-parse --abbrev-ref HEAD`.chomp == name
+      self.class.checked_out == self
     end
 
     def subset_of?(other_branch)
@@ -40,6 +40,10 @@ module SC::Git
 
     def to_s
       name
+    end
+
+    def ==(other)
+      name == other.to_s
     end
   end
 end
