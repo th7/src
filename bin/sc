@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
+$LOAD_PATH << './lib'
 
-require_relative '../lib/sc/cli'
+require 'sc'
+require 'sc/cli'
+
+SC.env = 'production'
 
 SC::CLI.new.run

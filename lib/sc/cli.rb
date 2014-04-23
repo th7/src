@@ -35,13 +35,5 @@ module SC
     def argv
       ARGV
     end
-
-    def add_cmd(cmd)
-      commands << cmd
-    end
-
-    def commands
-      @commands ||= []
-    end
   end
 end
