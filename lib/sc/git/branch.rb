@@ -2,6 +2,12 @@ module SC::Git
   class Branch
     attr_reader :name
 
+    class << self
+      def checked_out
+        new(`git rev-parse --abbrev-ref HEAD`.chomp)
+      end
+    end
+
     def initialize(name)
       @name = name
     end

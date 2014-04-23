@@ -21,6 +21,10 @@ def other_branch
   @other_branch ||= SC::Git::Branch.new('other_test_branch')
 end
 
+def klass
+  SC::Git::Branch
+end
+
 describe SC::Git::Branch do
   before(:all) do
     @reset_to = `git rev-parse HEAD`.chomp
@@ -39,6 +43,12 @@ describe SC::Git::Branch do
     run "git rm #{test_file} #{quiet}"
 
     run "git branch -D #{quiet} #{test_branch}"
+  end
+
+  describe '.checked_out' do
+    it 'returns a branch object for the currently checked out branch' do
+      expect(klass.checked_out.to_s).to eq @checkout_to
+    end
   end
 
   describe '#exists?' do
