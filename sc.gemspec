@@ -8,8 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = Sc::VERSION
   spec.authors       = ["Tyler Hartland"]
   spec.email         = ["tyler.hartland@code42.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = 'Easily cut and merge release branches.'
   spec.homepage      = ""
   spec.license       = "MIT"
 
