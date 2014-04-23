@@ -17,5 +17,13 @@ module SC::Git
     def subset_of?(other_branch)
       `git rev-list #{other_branch}..#{name}`.chomp.length == 0
     end
+
+    def last_commit
+      `git rev-parse #{name}`.chomp
+    end
+
+    def to_s
+      name
+    end
   end
 end

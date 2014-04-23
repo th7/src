@@ -14,16 +14,14 @@ def test_file
 end
 
 def test_branch
-  'test_branch'
+  @test_branch ||= SC::Git::Branch.new('test_branch')
 end
 
 def other_branch
-  'other_test_branch'
+  @other_branch ||= SC::Git::Branch.new('other_test_branch')
 end
 
 describe SC::Git::Branch do
-  let(:branch) { SC::Git::Branch.new(test_branch) }
-
   before(:all) do
     @reset_to = `git rev-parse HEAD`.chomp
     run "touch #{test_file}"
@@ -48,7 +46,7 @@ describe SC::Git::Branch do
       end
 
       it 'returns true' do
-        expect(branch.exists?).to eq true
+        expect(test_branch.exists?).to eq true
       end
     end
 
@@ -78,13 +76,13 @@ describe SC::Git::Branch do
       end
 
       it 'returns true' do
-        expect(branch.checked_out?).to eq true
+        expect(test_branch.checked_out?).to eq true
       end
     end
 
     context 'the branch is not checked_out' do
       it 'returns false' do
-        expect(branch.checked_out?).to eq false
+        expect(test_branch.checked_out?).to eq false
       end
     end
   end
@@ -102,8 +100,8 @@ describe SC::Git::Branch do
 
     context 'the branch is not a subset' do
       before do
-        run "git checkout #{quiet} #{test_branch}"
-        run 'touch test_file'
+        run "git checkout #{quiet} #{other_branch}"
+        run "touch subset_of_test_file"
         run 'git add .'
         run "git commit -m 'temp commit' #{quiet}"
       end
@@ -113,14 +111,20 @@ describe SC::Git::Branch do
       end
 
       it 'returns false' do
-        expect(branch.subset_of?(other_branch)).to eq false
+        expect(other_branch.subset_of?(test_branch)).to eq false
       end
     end
 
     context 'the branch is a subset' do
       it 'returns true' do
-        expect(branch.subset_of?(other_branch)).to eq true
+        expect(other_branch.subset_of?(test_branch)).to eq true
       end
+    end
+  end
+
+  describe '#last_commit' do
+    it 'returns the commit hash of the last commit' do
+      expect(test_branch.last_commit).to eq `git rev-parse #{test_branch}`.chomp
     end
   end
 end
