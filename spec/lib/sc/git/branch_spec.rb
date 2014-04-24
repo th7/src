@@ -65,7 +65,7 @@ describe SC::Git::Branch do
     end
 
     it 'returns the latest branch for this prefix type' do
-      expect(klass.latest('release')).to eq 'release-1.2.4'
+      expect(klass.latest('release').to_s).to eq 'release-1.2.4'
     end
   end
 

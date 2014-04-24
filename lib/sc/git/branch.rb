@@ -40,7 +40,7 @@ module SC::Git
       end
 
       def latest(prefix)
-        new(`git branch | grep #{prefix}`.split(/\s+/).max)
+        new(`git branch`.split(/\s+/).select { |b| b =~ /\A#{prefix}/ }.max)
       end
     end
 
