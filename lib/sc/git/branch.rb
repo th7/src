@@ -42,7 +42,7 @@ module SC::Git
       end
 
       def latest(prefix)
-        new(`git branch | grep #{prefix}`.split(/\s+/).sort.last)
+        new(`git branch | grep #{prefix}`.split(/\s+/).max)
       end
     end
 
