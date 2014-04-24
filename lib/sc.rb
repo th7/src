@@ -19,3 +19,5 @@ module SC
     @commands ||= []
   end
 end
+
+module SC; class Error < StandardError; end; end
