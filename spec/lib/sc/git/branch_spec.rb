@@ -1,10 +1,6 @@
 require 'spec_helper'
 require 'sc/git/branch'
 
-def run(cmd)
-  raise "'#{cmd}' failed" unless system cmd
-end
-
 def quiet
   '-q'
 end
@@ -155,6 +151,12 @@ describe SC::Git::Branch do
       }.to change {
         `git rev-parse --abbrev-ref HEAD`.chomp
       }.to(test_branch.to_s)
+    end
+  end
+
+  describe '#merged' do
+    it 'returns a list of merged branches' do
+      expect([ @checkout_to, 'test_branch' ] - test_branch.merged).to eq []
     end
   end
 
