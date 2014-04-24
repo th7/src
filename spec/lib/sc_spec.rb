@@ -1,6 +1,6 @@
 require 'spec_helper'
-require 'sc'
+require 'src'
 
-describe SC do
+describe SRC do
   # it exists
 end

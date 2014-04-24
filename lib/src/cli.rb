@@ -1,22 +1,22 @@
-require 'sc'
-require 'sc/branch'
+require 'src'
+require 'src/branch'
 
-module SC
+module SRC
   class CLI
     def run
       public_send(*options[:base_args])
     end
 
     def cut(*args)
-      SC::Branch.new(args[0]).cut
+      SRC::Branch.new(args[0]).cut
     end
 
     def merge(*args)
-      SC::Branch.new(args[0]).merge
+      SRC::Branch.new(args[0]).merge
     end
 
     def check(*args)
-      SC.check
+      SRC.check
     end
 
     def options

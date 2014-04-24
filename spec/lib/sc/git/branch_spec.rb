@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sc/git/branch'
+require 'src/git/branch'
 
 def quiet
   '-q'
@@ -10,18 +10,18 @@ def test_file
 end
 
 def test_branch
-  @test_branch ||= SC::Git::Branch.new('test_branch')
+  @test_branch ||= SRC::Git::Branch.new('test_branch')
 end
 
 def other_branch
-  @other_branch ||= SC::Git::Branch.new('other_test_branch')
+  @other_branch ||= SRC::Git::Branch.new('other_test_branch')
 end
 
 def klass
-  SC::Git::Branch
+  SRC::Git::Branch
 end
 
-describe SC::Git::Branch do
+describe SRC::Git::Branch do
   before(:all) do
     @reset_to = `git rev-parse HEAD`.chomp
     @checkout_to = `git rev-parse --abbrev-ref HEAD`.chomp
@@ -168,7 +168,7 @@ describe SC::Git::Branch do
 
     it 'creates a new branch from self' do
       expect {
-        SC::Git::Branch.new('test_branch').branch_from('from_test_branch')
+        SRC::Git::Branch.new('test_branch').branch_from('from_test_branch')
       }.to change {
         system("git show-ref --verify --quiet refs/heads/from_test_branch")
       }.from(false).to(true)

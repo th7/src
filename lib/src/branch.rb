@@ -1,13 +1,13 @@
-require 'sc'
-require 'sc/git/branch'
+require 'src'
+require 'src/git/branch'
 
-module SC
+module SRC
   class Branch
     attr_reader :vc, :branches_from, :prefix, :merges_to, :semantic_level
 
     def initialize(type)
       opts            = branches[type.to_sym] || {}
-      @vc             = SC::Git::Branch
+      @vc             = SRC::Git::Branch
       @branches_from  = vc.new(opts[:branches_from])
       @prefix         = opts[:prefix]
       @merges_to      = vc.new(opts[:merges_to])
@@ -74,7 +74,7 @@ module SC
     end
 
     def branches
-      SC::BRANCHES
+      SRC::BRANCHES
     end
   end
 end

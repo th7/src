@@ -1,4 +1,4 @@
-module SC::Git
+module SRC::Git
   class Branch
     VERSION_FILE = 'version'
 
