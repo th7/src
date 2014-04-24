@@ -1,15 +1,10 @@
 module SC::Git
   class Branch
-    PREFIXES = {
-      release: 'release',
-      hotfix: 'hotfix'
-    }
-
     MERGES = [
       'master',
       'hotfix',
       'release',
-      'major-release',
+      'major_release',
       'develop'
     ]
 
@@ -21,16 +16,19 @@ module SC::Git
         accepts: 'merges'
       },
       hotfix: {
-        accepts: 'pull_requests',
+        # accepts: 'pull_requests',
         cuts_from: 'master',
-        prefix: 'hotfix',
-        releases_to: 'master'
+        prefix: 'hotfix'
       },
       release: {
-        accepts: 'pull_requests',
+        # accepts: 'pull_requests',
         cuts_from: 'develop',
-        prefix: 'release',
-        releases_to: 'master'
+        prefix: 'release'
+      },
+      major_release: {
+        # accepts: 'pull_requests',
+        cuts_from: 'develop',
+        prefix: 'major-release'
       }
     }
 
