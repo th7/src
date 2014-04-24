@@ -47,20 +47,28 @@ describe SC::Git::Branch do
   end
 
   describe '.latest' do
-    before do
-      run "git branch #{quiet} release-1.2.3"
-      run "git branch #{quiet} release-1.2.4"
-      run "git checkout release-1.2.3 #{quiet}"
+    context 'a branch of this type exists' do
+      before do
+        run "git branch #{quiet} git_branch_latest_test-1.2.3"
+        run "git branch #{quiet} git_branch_latest_test-1.2.4"
+        run "git checkout git_branch_latest_test-1.2.3 #{quiet}"
+      end
+
+      after do
+        run "git checkout #{@checkout_to} #{quiet}"
+        run "git branch -D #{quiet} git_branch_latest_test-1.2.3"
+        run "git branch -D #{quiet} git_branch_latest_test-1.2.4"
+      end
+
+      it 'returns the latest branch for this prefix type' do
+        expect(klass.latest('git_branch_latest_test')).to eq 'git_branch_latest_test-1.2.4'
+      end
     end
 
-    after do
-      run "git checkout #{@checkout_to} #{quiet}"
-      run "git branch -D #{quiet} release-1.2.3"
-      run "git branch -D #{quiet} release-1.2.4"
-    end
-
-    it 'returns the latest branch for this prefix type' do
-      expect(klass.latest('release').to_s).to eq 'release-1.2.4'
+    context 'a branch of this type does not exist' do
+      it 'returns nil' do
+        expect(klass.latest('git_branch_latest_test')).to be_nil
+      end
     end
   end
 

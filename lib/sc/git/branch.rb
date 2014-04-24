@@ -10,7 +10,8 @@ module SC::Git
       end
 
       def latest(prefix)
-        new(`git branch`.split(/\s+/).select { |b| b =~ /\A#{prefix}/ }.max)
+        branch_name = `git branch`.split(/\s+/).select { |b| b =~ /\A#{prefix}/ }.max
+        new(branch_name) if branch_name
       end
     end
 
