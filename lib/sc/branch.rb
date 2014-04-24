@@ -45,6 +45,7 @@ module SC
 
     def cut
       if unmerged?
+        puts "An unmerged #{prefix} branch exists. Checking out."
         latest.checkout
       else
         create_new
