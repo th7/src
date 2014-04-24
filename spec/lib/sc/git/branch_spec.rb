@@ -34,9 +34,8 @@ describe SC::Git::Branch do
 
   after(:all) do
     run "git checkout #{@checkout_to} #{quiet}"
-    run "git reset --soft #{quiet} #{@reset_to}"
+    run "git reset #{quiet} #{@reset_to}"
     run "rm #{test_file}"
-    run "git rm #{test_file} #{quiet}"
 
     run "git branch -D #{quiet} #{test_branch}"
   end
