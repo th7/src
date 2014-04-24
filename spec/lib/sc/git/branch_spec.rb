@@ -190,7 +190,8 @@ describe SC::Git::Branch do
 
   describe '#update_version_file' do
     before do
-      @reset_update_version_file_to = test_branch.last_commit
+      @reset_update_version_file_to = `git rev-parse #{test_branch}`.chomp
+      raise @reset_update_version_file_to unless $?.success?
     end
 
     after do
