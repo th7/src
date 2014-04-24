@@ -1,4 +1,5 @@
 require 'sc'
+require 'sc/git/branch'
 
 module SC
   class Branch
@@ -11,28 +12,32 @@ module SC
       },
       hotfix: {
         # accepts: 'pull_requests',
-        cuts_from: 'master',
-        prefix: 'hotfix'
+        branches_from: 'master',
+        prefix: 'hotfix',
+        semantic_level: 'patch'
       },
       release: {
         # accepts: 'pull_requests',
-        cuts_from: 'develop',
-        prefix: 'release'
+        branches_from: 'develop',
+        prefix: 'release',
+        semantic_level: 'minor'
       },
       major_release: {
         # accepts: 'pull_requests',
-        cuts_from: 'develop',
-        prefix: 'major-release'
+        branches_from: 'develop',
+        prefix: 'major-release',
+        semantic_level: 'major'
       }
     }
 
-    attr_reader :vc, :cuts_from, :prefix, :merges_to
+    attr_reader :vc, :branches_from, :prefix, :merges_to, :semantic_level
 
-    def initialize(prefix, cuts_from, merges_to='master')
-      @vc        = SC::Git::Branch
-      @cuts_from = vc.new(cuts_from)
-      @prefix    = prefix
-      @merges_to = vc.new(merges_to)
+    def initialize(prefix, branches_from, semantic_level, merges_to='master')
+      @vc             = SC::Git::Branch
+      @branches_from  = vc.new(branches_from)
+      @prefix         = prefix
+      @merges_to      = vc.new(merges_to)
+      @semantic_level = semantic_level
     end
 
     def cut
@@ -41,6 +46,23 @@ module SC
       else
         create_new
       end
+    end
+
+    def next_version
+      case semantic_level
+      when 'patch'
+        i = 2
+      when 'minor'
+        i = 1
+      when 'major'
+        i = 0
+      end
+
+      parts = branches_from.version.split('.')
+      ((i + 1)..2).each { |j| parts[j] = '0' }
+      parts[i] = (parts[i].to_i + 1).to_s
+
+      parts.join('.')
     end
 
     private
@@ -54,7 +76,7 @@ module SC
     end
 
     def create_new
-      if cuts_from == merges_to
+      if branches_from == merges_to
         # cut branch
         # increment version on new branch
       else
@@ -62,6 +84,7 @@ module SC
         # increment version on original branch
       end
     end
+
 
     def branches
       BRANCHES
