@@ -80,7 +80,7 @@ module SC::Git
       checked_out do
         raise unless system("git branch #{new_branch}")
       end
-      self.class.new('new_branch')
+      self.class.new(new_branch)
     end
 
     def checked_out
