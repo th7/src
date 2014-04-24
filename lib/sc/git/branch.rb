@@ -6,6 +6,10 @@ module SC::Git
       def checked_out
         new(`git rev-parse --abbrev-ref HEAD`.chomp)
       end
+
+      def latest(prefix)
+        new(`git branch | grep #{prefix}`.split(/\s+/).sort.last)
+      end
     end
 
     def initialize(name)
