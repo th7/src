@@ -141,12 +141,6 @@ describe SC::Git::Branch do
     end
   end
 
-  describe '#last_commit' do
-    it 'returns the commit hash of the last commit' do
-      expect(test_branch.last_commit).to eq `git rev-parse #{test_branch}`.chomp
-    end
-  end
-
   describe '#checkout' do
     after do
       run "git checkout #{@checkout_to} #{quiet}"
@@ -158,12 +152,6 @@ describe SC::Git::Branch do
       }.to change {
         `git rev-parse --abbrev-ref HEAD`.chomp
       }.to(test_branch.to_s)
-    end
-  end
-
-  describe '#merged' do
-    it 'returns a list of merged branches' do
-      expect([ @checkout_to, 'test_branch' ] - test_branch.merged).to eq []
     end
   end
 

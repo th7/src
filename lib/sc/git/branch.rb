@@ -36,19 +36,6 @@ module SC::Git
       `git rev-list #{other_branch}..#{name}`.chomp.length == 0
     end
 
-    def merged
-      `git branch --merged #{name}`.split(/\s+/).reject { |b| b == '*' }
-    end
-
-    def last_commit
-      hash = `git rev-parse #{name}`.chomp
-      if $?.success?
-        hash
-      else
-        raise hash
-      end
-    end
-
     def version
       `git show #{name}:#{version_file}`.chomp
     end
