@@ -1,3 +1,4 @@
+require 'sc'
 require 'sc/branch'
 
 module SC
@@ -12,6 +13,10 @@ module SC
 
     def merge(*args)
       SC::Branch.new(args[0]).merge
+    end
+
+    def check(*args)
+      SC.check
     end
 
     def options

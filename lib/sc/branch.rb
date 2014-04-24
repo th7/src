@@ -1,32 +1,12 @@
+require 'sc'
 require 'sc/git/branch'
 
 module SC
   class Branch
-    BRANCHES = {
-      hotfix: {
-        branches_from: 'master',
-        merges_to: 'master',
-        prefix: 'hotfix',
-        semantic_level: 'patch'
-      },
-      release: {
-        branches_from: 'develop',
-        merges_to: 'master',
-        prefix: 'release',
-        semantic_level: 'minor'
-      },
-      major_release: {
-        branches_from: 'develop',
-        merges_to: 'master',
-        prefix: 'major-release',
-        semantic_level: 'major'
-      }
-    }
-
     attr_reader :vc, :branches_from, :prefix, :merges_to, :semantic_level
 
     def initialize(type)
-      opts = branches[type.to_sym]
+      opts            = branches[type.to_sym] || {}
       @vc             = SC::Git::Branch
       @branches_from  = vc.new(opts[:branches_from])
       @prefix         = opts[:prefix]
@@ -68,8 +48,6 @@ module SC
       parts.join('.')
     end
 
-    private
-
     def latest
       @latest ||= vc.latest(prefix)
     end
@@ -77,6 +55,8 @@ module SC
     def unmerged?
       latest && !latest.subset_of?(merges_to)
     end
+
+    private
 
     def create_new
       if branches_from == merges_to
@@ -90,7 +70,7 @@ module SC
     end
 
     def branches
-      BRANCHES
+      SC::BRANCHES
     end
   end
 end
