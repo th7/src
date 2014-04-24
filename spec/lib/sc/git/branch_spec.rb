@@ -180,4 +180,24 @@ describe SC::Git::Branch do
       expect(`git rev-parse --abbrev-ref HEAD`.chomp).to eq 'master'
     end
   end
+
+  describe '#update_version_file' do
+    before do
+      @reset_update_version_file_to = test_branch.last_commit
+    end
+
+    after do
+      run "git checkout #{test_branch} #{quiet}"
+      run "git reset --hard #{@reset_update_version_file_to} #{quiet}"
+      run "git checkout #{@checkout_to} #{quiet}"
+    end
+
+    it 'updates the version file' do
+      expect {
+        test_branch.update_version_file('new_version')
+      }.to change {
+        `git show #{test_branch}:#{test_branch.version_file}`.chomp
+      }.to('new_version')
+    end
+  end
 end

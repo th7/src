@@ -56,10 +56,38 @@ module SC::Git
       VERSION_FILE
     end
 
+    def update_version_file(new_version)
+      checked_out do
+        raise unless system("echo '#{new_version}' > #{version_file}")
+        self.add(version_file)
+        self.commit("version bumped to #{new_version}")
+      end
+    end
+
+    def commit(msg)
+      checked_out do
+        raise unless system("git commit -m '#{msg}' -q")
+      end
+    end
+
+    def add(filename)
+      checked_out do
+        raise unless system("git add #{filename}")
+      end
+    end
+
     def branch_from(new_branch)
+      checked_out do
+        raise unless system("git branch #{new_branch}")
+      end
+      self.class.new('new_branch')
+    end
+
+    def checked_out
       previous_branch = self.class.checked_out
       self.checkout
-      raise unless system("git branch #{new_branch}")
+      yield
+    ensure
       previous_branch.checkout
     end
 
