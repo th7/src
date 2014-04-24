@@ -1,4 +1,4 @@
-require 'sc/cutter'
+require 'sc/branch'
 
 module SC
   class CLI
@@ -7,7 +7,7 @@ module SC
     end
 
     def cut(*args)
-      SC::Cutter.new(args[0], options).cut
+      SC::Branch.new(SC::Branch::BRANCHES[args[0].to_sym]).cut
     end
 
     def options

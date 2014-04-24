@@ -11,20 +11,23 @@ module SC
         accepts: 'merges'
       },
       hotfix: {
-        # accepts: 'pull_requests',
+        accepts: 'pull_requests',
         branches_from: 'master',
+        merges_to: 'master',
         prefix: 'hotfix',
         semantic_level: 'patch'
       },
       release: {
-        # accepts: 'pull_requests',
+        accepts: 'pull_requests',
         branches_from: 'develop',
+        merges_to: 'master',
         prefix: 'release',
         semantic_level: 'minor'
       },
       major_release: {
-        # accepts: 'pull_requests',
+        accepts: 'pull_requests',
         branches_from: 'develop',
+        merges_to: 'master',
         prefix: 'major-release',
         semantic_level: 'major'
       }
@@ -32,12 +35,12 @@ module SC
 
     attr_reader :vc, :branches_from, :prefix, :merges_to, :semantic_level
 
-    def initialize(prefix, branches_from, semantic_level, merges_to='master')
+    def initialize(opts)
       @vc             = SC::Git::Branch
-      @branches_from  = vc.new(branches_from)
-      @prefix         = prefix
-      @merges_to      = vc.new(merges_to)
-      @semantic_level = semantic_level
+      @branches_from  = vc.new(opts[:branches_from])
+      @prefix         = opts[:prefix]
+      @merges_to      = vc.new(opts[:merges_to])
+      @semantic_level = opts[:semantic_level]
     end
 
     def cut
@@ -76,15 +79,13 @@ module SC
     end
 
     def create_new
+      new_branch = branches_from.branch_from("#{prefix}-#{next_version}")
       if branches_from == merges_to
-        # cut branch
-        # increment version on new branch
+        new_branch.update_version_file(next_version)
       else
-        # cut branch
-        # increment version on original branch
+        branches_from.update_version_file(next_version)
       end
     end
-
 
     def branches
       BRANCHES
