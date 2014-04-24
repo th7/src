@@ -7,7 +7,7 @@ module SC
     end
 
     def cut(*args)
-      SC::Branch.new(SC::Branch::BRANCHES[args[0].to_sym]).cut
+      SC::Branch.new(args[0]).cut
     end
 
     def options

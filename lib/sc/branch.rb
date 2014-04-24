@@ -35,7 +35,8 @@ module SC
 
     attr_reader :vc, :branches_from, :prefix, :merges_to, :semantic_level
 
-    def initialize(opts)
+    def initialize(type)
+      opts = branches[type.to_sym]
       @vc             = SC::Git::Branch
       @branches_from  = vc.new(opts[:branches_from])
       @prefix         = opts[:prefix]

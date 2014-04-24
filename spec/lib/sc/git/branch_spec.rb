@@ -176,7 +176,7 @@ describe SC::Git::Branch do
       }.to change {
         system("git show-ref --verify --quiet refs/heads/from_test_branch")
       }.from(false).to(true)
-      expect(`git rev-parse --abbrev-ref HEAD`.chomp).to eq 'master'
+      expect(`git rev-parse --abbrev-ref HEAD`.chomp).to eq @checkout_to
     end
   end
 

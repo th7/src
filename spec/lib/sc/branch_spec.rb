@@ -8,21 +8,21 @@ describe SC::Branch do
     end
 
     context 'a patch level change' do
-      let(:branch) { SC::Branch.new('test', 'develop', 'patch') }
+      let(:branch) { SC::Branch.new('hotfix') }
       it 'increments only the patch number' do
         expect(branch.next_version).to eq '1.2.4'
       end
     end
 
     context 'a minor level change' do
-      let(:branch) { SC::Branch.new('test', 'develop', 'minor') }
+      let(:branch) { SC::Branch.new('release') }
       it 'increments the minor number and sets the patch to 0' do
         expect(branch.next_version).to eq '1.3.0'
       end
     end
 
     context 'a major level change' do
-      let(:branch) { SC::Branch.new('test', 'develop', 'major') }
+      let(:branch) { SC::Branch.new('major_release') }
       it 'increments only the major number and sets others to 0' do
         expect(branch.next_version).to eq '2.0.0'
       end
