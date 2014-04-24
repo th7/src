@@ -25,7 +25,11 @@ module SC
 
     def merge
       if unmerged?
-        merges_to.merge(latest)
+        if merges_to.subset_of?(latest)
+          merges_to.merge(latest)
+        else
+          puts "You must first merge #{merges_to} into #{latest}"
+        end
       else
         puts "No unmerged #{prefix} branch exists."
       end
