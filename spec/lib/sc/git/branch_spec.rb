@@ -157,4 +157,10 @@ describe SC::Git::Branch do
       }.to(test_branch.to_s)
     end
   end
+
+  describe '#version' do
+    it 'returns the contents of the version file' do
+      expect(test_branch.version).to eq `cat #{test_branch.version_file}`.chomp
+    end
+  end
 end

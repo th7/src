@@ -1,36 +1,6 @@
 module SC::Git
   class Branch
-    MERGES = [
-      'master',
-      'hotfix',
-      'release',
-      'major_release',
-      'develop'
-    ]
-
-    BRANCHES = {
-      develop: {
-        accepts: 'pull_requests',
-      },
-      master: {
-        accepts: 'merges'
-      },
-      hotfix: {
-        # accepts: 'pull_requests',
-        cuts_from: 'master',
-        prefix: 'hotfix'
-      },
-      release: {
-        # accepts: 'pull_requests',
-        cuts_from: 'develop',
-        prefix: 'release'
-      },
-      major_release: {
-        # accepts: 'pull_requests',
-        cuts_from: 'develop',
-        prefix: 'major-release'
-      }
-    }
+    VERSION_FILE = 'version'
 
     attr_reader :name
 
@@ -72,6 +42,14 @@ module SC::Git
       else
         raise hash
       end
+    end
+
+    def version
+      `git show #{name}:#{version_file}`.chomp
+    end
+
+    def version_file
+      VERSION_FILE
     end
 
     def to_s
