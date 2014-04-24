@@ -52,6 +52,15 @@ module SC
       end
     end
 
+    def merge
+      if unmerged?
+        merges_to.merge(latest)
+        # merge others
+      else
+        puts "No unmerged #{prefix} branch exists."
+      end
+    end
+
     def next_version
       case semantic_level
       when 'patch'

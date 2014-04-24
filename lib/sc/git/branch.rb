@@ -79,6 +79,12 @@ module SC::Git
       previous_branch.checkout
     end
 
+    def merge(other_branch)
+      checked_out do
+        raise unless system("git merge --no-ff #{other_branch}")
+      end
+    end
+
     def to_s
       name
     end

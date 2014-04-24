@@ -4,6 +4,4 @@ $LOAD_PATH << './lib'
 require 'sc'
 require 'sc/cli'
 
-SC.env = 'production'
-
 SC::CLI.new.run

@@ -10,6 +10,10 @@ module SC
       SC::Branch.new(args[0]).cut
     end
 
+    def merge(*args)
+      SC::Branch.new(args[0]).merge
+    end
+
     def options
       @options ||= parse
     end
