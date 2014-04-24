@@ -3,28 +3,19 @@ require 'sc/git/branch'
 module SC
   class Branch
     BRANCHES = {
-      develop: {
-        accepts: 'pull_requests'
-      },
-      master: {
-        accepts: 'merges'
-      },
       hotfix: {
-        accepts: 'pull_requests',
         branches_from: 'master',
         merges_to: 'master',
         prefix: 'hotfix',
         semantic_level: 'patch'
       },
       release: {
-        accepts: 'pull_requests',
         branches_from: 'develop',
         merges_to: 'master',
         prefix: 'release',
         semantic_level: 'minor'
       },
       major_release: {
-        accepts: 'pull_requests',
         branches_from: 'develop',
         merges_to: 'master',
         prefix: 'major-release',
@@ -55,7 +46,6 @@ module SC
     def merge
       if unmerged?
         merges_to.merge(latest)
-        # merge others
       else
         puts "No unmerged #{prefix} branch exists."
       end
