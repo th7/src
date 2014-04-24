@@ -22,7 +22,7 @@ describe SC::CLI do
     end
 
     it 'passes args and options to a new instance of SC::Cutter and calls cut' do
-      expect(SC::Cutter).to receive(:new).with('type', cli.options).and_return(dub)
+      expect(SC::Branch).to receive(:new).with('type').and_return(dub)
       expect(dub).to receive(:cut)
       cli.run
     end

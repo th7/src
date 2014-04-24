@@ -1,4 +1,3 @@
-require 'sc'
 require 'sc/git/branch'
 
 module SC
@@ -35,7 +34,8 @@ module SC
 
     attr_reader :vc, :branches_from, :prefix, :merges_to, :semantic_level
 
-    def initialize(opts)
+    def initialize(type)
+      opts = branches[type.to_sym]
       @vc             = SC::Git::Branch
       @branches_from  = vc.new(opts[:branches_from])
       @prefix         = opts[:prefix]
@@ -49,6 +49,15 @@ module SC
         latest.checkout
       else
         create_new
+      end
+    end
+
+    def merge
+      if unmerged?
+        merges_to.merge(latest)
+        # merge others
+      else
+        puts "No unmerged #{prefix} branch exists."
       end
     end
 
@@ -80,12 +89,14 @@ module SC
     end
 
     def create_new
-      new_branch = branches_from.branch_from("#{prefix}-#{next_version}")
       if branches_from == merges_to
+        new_branch = branches_from.branch_from("#{prefix}-#{next_version}")
         new_branch.update_version_file(next_version)
       else
+        new_branch = branches_from.branch_from("#{prefix}-#{branches_from.version}")
         branches_from.update_version_file(next_version)
       end
+      new_branch.checkout
     end
 
     def branches
@@ -93,5 +104,3 @@ module SC
     end
   end
 end
-
-module SC; class Branch::Error < SC::Error; end; end

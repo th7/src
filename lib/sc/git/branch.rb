@@ -10,12 +10,13 @@ module SC::Git
       end
 
       def latest(prefix)
-        new(`git branch`.split(/\s+/).select { |b| b =~ /\A#{prefix}/ }.max)
+        branch_name = `git branch`.split(/\s+/).select { |b| b =~ /\A#{prefix}/ }.max
+        new(branch_name) if branch_name
       end
     end
 
     def initialize(name)
-      @name = name
+      @name = name.to_s
     end
 
     def exists?
@@ -33,19 +34,6 @@ module SC::Git
 
     def subset_of?(other_branch)
       `git rev-list #{other_branch}..#{name}`.chomp.length == 0
-    end
-
-    def merged
-      `git branch --merged #{name}`.split(/\s+/).reject { |b| b == '*' }
-    end
-
-    def last_commit
-      hash = `git rev-parse #{name}`.chomp
-      if $?.success?
-        hash
-      else
-        raise hash
-      end
     end
 
     def version
@@ -80,7 +68,7 @@ module SC::Git
       checked_out do
         raise unless system("git branch #{new_branch}")
       end
-      self.class.new('new_branch')
+      self.class.new(new_branch)
     end
 
     def checked_out
@@ -89,6 +77,12 @@ module SC::Git
       yield
     ensure
       previous_branch.checkout
+    end
+
+    def merge(other_branch)
+      checked_out do
+        raise unless system("git merge --no-ff #{other_branch}")
+      end
     end
 
     def to_s
