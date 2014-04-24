@@ -80,12 +80,14 @@ module SC
     end
 
     def create_new
-      new_branch = branches_from.branch_from("#{prefix}-#{next_version}")
       if branches_from == merges_to
+        new_branch = branches_from.branch_from("#{prefix}-#{next_version}")
         new_branch.update_version_file(next_version)
       else
+        new_branch = branches_from.branch_from("#{prefix}-#{branches_from.version}")
         branches_from.update_version_file(next_version)
       end
+      new_branch.checkout
     end
 
     def branches
