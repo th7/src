@@ -16,7 +16,7 @@ module SC::Git
     end
 
     def initialize(name)
-      @name = name
+      @name = name.to_s
     end
 
     def exists?
