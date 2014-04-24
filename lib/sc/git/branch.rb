@@ -1,5 +1,39 @@
 module SC::Git
   class Branch
+    PREFIXES = {
+      release: 'release',
+      hotfix: 'hotfix'
+    }
+
+    MERGES = [
+      'master',
+      'hotfix',
+      'release',
+      'major-release',
+      'develop'
+    ]
+
+    BRANCHES = {
+      develop: {
+        accepts: 'pull_requests',
+      },
+      master: {
+        accepts: 'merges'
+      },
+      hotfix: {
+        accepts: 'pull_requests',
+        cuts_from: 'master',
+        prefix: 'hotfix',
+        releases_to: 'master'
+      },
+      release: {
+        accepts: 'pull_requests',
+        cuts_from: 'develop',
+        prefix: 'release',
+        releases_to: 'master'
+      }
+    }
+
     attr_reader :name
 
     class << self
@@ -35,7 +69,7 @@ module SC::Git
 
     def last_commit
       hash = `git rev-parse #{name}`.chomp
-      if hash =~ /\A[0-9a-f]{40}\z/
+      if $?.success?
         hash
       else
         raise hash
