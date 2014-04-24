@@ -1,4 +1,3 @@
-require 'sc'
 require 'sc/git/branch'
 
 module SC
@@ -96,5 +95,3 @@ module SC
     end
   end
 end
-
-module SC; class Branch::Error < SC::Error; end; end
