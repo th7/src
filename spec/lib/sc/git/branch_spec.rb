@@ -165,4 +165,19 @@ describe SC::Git::Branch do
       expect(test_branch.version).to eq `cat #{test_branch.version_file}`.chomp
     end
   end
+
+  describe '#branch_from' do
+    after do
+      run 'git branch -D from_test_branch -q'
+    end
+
+    it 'creates a new branch from self' do
+      expect {
+        SC::Git::Branch.new('test_branch').branch_from('from_test_branch')
+      }.to change {
+        system("git show-ref --verify --quiet refs/heads/from_test_branch")
+      }.from(false).to(true)
+      expect(`git rev-parse --abbrev-ref HEAD`.chomp).to eq 'master'
+    end
+  end
 end

@@ -56,6 +56,13 @@ module SC::Git
       VERSION_FILE
     end
 
+    def branch_from(new_branch)
+      previous_branch = self.class.checked_out
+      self.checkout
+      raise unless system("git branch #{new_branch}")
+      previous_branch.checkout
+    end
+
     def to_s
       name
     end
