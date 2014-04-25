@@ -85,6 +85,12 @@ module SRC::Git
       end
     end
 
+    def tag
+      checked_out do
+        raise unless system("git tag #{version}")
+      end
+    end
+
     def to_s
       name
     end

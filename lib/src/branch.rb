@@ -27,6 +27,7 @@ module SRC
       if unmerged?
         if merges_to.subset_of?(latest)
           merges_to.merge(latest)
+          merges_to.tag
         else
           puts "You must first merge #{merges_to} into #{latest}"
         end
