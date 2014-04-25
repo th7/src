@@ -9,11 +9,17 @@ module SRC
       prefix: 'hotfix',
       semantic_level: 'patch'
     },
-    release: {
+    minor: {
       branches_from: 'develop',
       merges_to: 'master',
       prefix: 'release',
       semantic_level: 'minor'
+    },
+    major: {
+      branches_from: 'develop',
+      merges_to: 'master',
+      prefix: 'release',
+      semantic_level: 'major'
     },
     develop: nil
   }
