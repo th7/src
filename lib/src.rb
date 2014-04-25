@@ -1,3 +1,5 @@
+require 'src/git'
+
 module SRC
   BRANCHES = {
     master: nil,
@@ -17,12 +19,20 @@ module SRC
   }
 
   def self.check
+    SRC::Git.fetch
+
     report = []
+
     branches.each_with_index do |branch, i|
+
       branches[(i + 1)..-1].each do |superset|
         unless branch.subset_of?(superset)
           report << "#{branch} should be merged into #{superset}"
         end
+      end
+
+      unless branch.remote_up_to_date?
+        report << "#{branch} is not up to date with its remote"
       end
     end
 

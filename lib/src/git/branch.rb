@@ -2,6 +2,10 @@ module SRC::Git
   class Branch
     VERSION_FILE = 'version'
 
+    AHEAD    = /# Your branch is ahead/
+    BEHIND   = /# Your branch is behind/
+    DIVERGED = /# Your branch and .* have diverged/
+
     attr_reader :name
 
     class << self
@@ -89,6 +93,28 @@ module SRC::Git
       checked_out do
         raise unless system("git tag #{version}")
       end
+    end
+
+    def status
+      checked_out do
+        `git status -uno`.chomp
+      end
+    end
+
+    def remote_ahead?
+      status =~ AHEAD
+    end
+
+    def remote_behind?
+      status =~ BEHIND
+    end
+
+    def remote_diverged?
+      status =~ DIVERGED
+    end
+
+    def remote_up_to_date?
+      !(remote_diverged? || remote_behind? || remote_ahead?)
     end
 
     def to_s
