@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'sc/cli'
+require 'src/cli'
 
-describe SC::CLI do
-  let(:cli) { SC::CLI.new }
+describe SRC::CLI do
+  let(:cli) { SRC::CLI.new }
   let(:dub) { double }
 
   describe '#run' do
@@ -21,8 +21,8 @@ describe SC::CLI do
       cli.stub(:options).and_return(base_args: [ 'cut', 'type' ])
     end
 
-    it 'passes args and options to a new instance of SC::Cutter and calls cut' do
-      expect(SC::Branch).to receive(:new).with('type').and_return(dub)
+    it 'passes args and options to a new instance of SRC::Cutter and calls cut' do
+      expect(SRC::Branch).to receive(:new).with('type').and_return(dub)
       expect(dub).to receive(:cut)
       cli.run
     end

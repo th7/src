@@ -1,12 +1,12 @@
 require 'spec_helper'
-require 'sc/branch'
+require 'src/branch'
 
-describe SC::Branch do
+describe SRC::Branch do
   describe '#next_version' do
-    let(:branch) { SC::Branch.new('testing #next_version') }
+    let(:branch) { SRC::Branch.new('testing #next_version') }
 
     before do
-      SC::Branch.any_instance.stub(:branches).and_return(double(:'[]' => {}))
+      SRC::Branch.any_instance.stub(:branches).and_return(double(:'[]' => {}))
       branch.stub(:branches_from).and_return(double(version: '1.2.3'))
     end
 

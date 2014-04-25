@@ -1,10 +1,10 @@
 require 'spec_helper'
-require 'sc/git'
+require 'src/git'
 
-describe SC::Git do
+describe SRC::Git do
   describe '.fetch' do
     it 'is too damn hard to spec and is merely checked for existence' do
-      expect(SC::Git.respond_to?(:fetch)).to eq true
+      expect(SRC::Git.respond_to?(:fetch)).to eq true
     end
   end
 end

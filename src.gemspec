@@ -1,13 +1,12 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'sc/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "sc"
-  spec.version       = SC::VERSION
+  spec.name          = "src"
+  spec.version       = `cat version`.chomp
   spec.authors       = ["Tyler Hartland"]
-  spec.email         = ["tyler.hartland@code42.com"]
+  spec.email         = ["tylerhartland7@gmail.com"]
   spec.summary       = 'Easily cut and merge release branches.'
   spec.homepage      = ""
   spec.license       = "MIT"

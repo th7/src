@@ -1,4 +1,4 @@
-module SC
+module SRC
   BRANCHES = {
     master: nil,
     hotfix: {
@@ -36,10 +36,10 @@ module SC
   def self.branches
     @branches ||= BRANCHES.map do |k, v|
       if v
-        sc_branch = SC::Branch.new(k) if v
+        sc_branch = SRC::Branch.new(k) if v
         sc_branch.latest if sc_branch.unmerged?
       else
-        SC::Git::Branch.new(k)
+        SRC::Git::Branch.new(k)
       end
     end.compact
   end

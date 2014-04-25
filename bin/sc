@@ -1,7 +1,0 @@
-#!/usr/bin/env ruby
-$LOAD_PATH << './lib'
-
-require 'sc'
-require 'sc/cli'
-
-SC::CLI.new.run
