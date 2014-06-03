@@ -4,7 +4,13 @@ require 'src/branch'
 module SRC
   class CLI
     def run
-      public_send(*options[:base_args])
+      if options.has_key?(:v)
+        version
+      elsif options.empty?
+        check
+      else
+        public_send(*options[:base_args])
+      end
     end
 
     def cut(*args)
@@ -17,6 +23,10 @@ module SRC
 
     def check(*args)
       SRC.check
+    end
+
+    def version
+      puts File.read(File.expand_path('../../version', File.dirname(__FILE__)))
     end
 
     def options
