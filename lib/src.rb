@@ -33,7 +33,7 @@ module SRC
 
       branches[(i + 1)..-1].each do |superset|
         unless branch.subset_of?(superset)
-          report << "#{branch} should be merged into #{superset}"
+          report << "#{branch} is ahead of #{superset}"
         end
       end
 
