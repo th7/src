@@ -57,6 +57,6 @@ module SRC
       else
         SRC::Git::Branch.new(k)
       end
-    end.compact
+    end.compact.uniq { |branch| branch.name }
   end
 end
